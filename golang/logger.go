@@ -267,7 +267,7 @@ func (o *ConsoleOutput) Write(entry *LogEntry) error {
 	}
 	resetColor := "\033[0m"
 
-	timeStr := entry.Timestamp.Format("15:04:05.000")
+	timeStr := entry.Timestamp.Format("2006-01-02 15:04:05.000")
 	location := ""
 	if entry.File != "" {
 		location = fmt.Sprintf(" \033[90m[%s:%d]\033[0m", entry.File, entry.Line)
