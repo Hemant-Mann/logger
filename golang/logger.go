@@ -514,6 +514,11 @@ func (l *Logger) WithFields(fields map[string]interface{}) *Logger {
 	return newLogger
 }
 
+// WithField creates a new logger with an additional default field (convenience method)
+func (l *Logger) WithField(key string, value interface{}) *Logger {
+	return l.WithFields(map[string]interface{}{key: value})
+}
+
 // log logs a message at the given level
 func (l *Logger) log(level Level, skip int, format string, args ...interface{}) {
 	if !l.isLoggable(level, l.component) {
@@ -525,6 +530,21 @@ func (l *Logger) log(level Level, skip int, format string, args ...interface{}) 
 		Level:      level.String(),
 		Component:  l.component,
 		InstanceID: l.instanceID,
+	}
+
+	// Check if the last argument is a fields map
+	var fields map[string]interface{}
+	if len(args) > 0 {
+		lastArg := args[len(args)-1]
+		if fieldsMap, ok := lastArg.(map[string]interface{}); ok {
+			// Create a defensive copy of the fields map
+			fields = make(map[string]interface{}, len(fieldsMap))
+			for k, v := range fieldsMap {
+				fields[k] = v
+			}
+			// Remove the fields map from args for message formatting
+			args = args[:len(args)-1]
+		}
 	}
 
 	// Format the message
@@ -562,6 +582,16 @@ func (l *Logger) log(level Level, skip int, format string, args ...interface{}) 
 		}
 	}
 	l.mu.RUnlock()
+
+	// Add per-message fields if provided
+	if fields != nil {
+		if entry.Fields == nil {
+			entry.Fields = make(map[string]interface{}, len(fields))
+		}
+		for k, v := range fields {
+			entry.Fields[k] = v
+		}
+	}
 
 	// Send to async queue
 	select {
