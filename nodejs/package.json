@@ -1,0 +1,27 @@
+{
+  "name": "advanced-logger",
+  "version": "1.0.0",
+  "description": "Advanced hierarchical logging system for Node.js",
+  "main": "logger.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "node example.js",
+    "example": "node example.js --logLevel=debug --logFile=./logs/app.log"
+  },
+  "keywords": [
+    "logging",
+    "logger",
+    "structured",
+    "hierarchical",
+    "esm"
+  ],
+  "author": "Hemant Mann",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.16.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
