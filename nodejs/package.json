@@ -2,7 +2,7 @@
   "name": "advanced-logger",
   "version": "1.0.0",
   "description": "Advanced hierarchical logging system for Node.js",
-  "main": "logger.js",
+  "main": "./src/logger.js",
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
