@@ -511,12 +511,14 @@ export class Logger {
         if (stack) {
             // Parse the stack trace to get file and line
             // Skip the first two lines (Error and this method)
-            const lines = stack.split('\n').slice(3);
+            // console.log('stack', stack)
+            const lines = stack.split('\n').slice(4);
             for (const line of lines) {
                 // ESM format stack trace is slightly different from CommonJS
                 const match = line.match(/at (?:(.+) \()?(?:file:\/\/)?(.+):(\d+):(\d+)/);
                 if (match) {
                     const [, , filePath, lineNum] = match;
+                    // TODO: add some parent folders as well
                     fileLine = {
                         file: path.basename(filePath),
                         line: parseInt(lineNum, 10)
